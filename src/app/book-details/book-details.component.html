@@ -11,7 +11,7 @@
   </div>
 </div>
 <div class="text-right" *ngIf="book">
-  <button class="btn btn-primary mr-1">Edit</button>
+  <button class="btn btn-primary mr-1" (click)="onBookEdit()">Edit</button>
   <button class="btn btn-danger mr-1">Delete</button>
   <button class="btn btn-secondary" (click)="reset()">Reset</button>
 </div>

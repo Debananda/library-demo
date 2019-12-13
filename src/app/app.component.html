@@ -7,11 +7,18 @@
         (bookSelectionChanged)="onBookSelected($event)"
       ></app-book-list>
     </div>
-    <div class="col-8">
+    <div class="col-8" *ngIf="!editMode && selectedBook">
       <app-book-details
         [book]="selectedBook"
         (onReset)="resetBookSelection()"
+        (editBook)="onBookEdit()"
       ></app-book-details>
+    </div>
+    <div class="col-8" *ngIf="editMode && selectedBook">
+      <app-book-form
+        [book]="selectedBook"
+        (onBookSave)="saveBook($event)"
+      ></app-book-form>
     </div>
   </div>
 </div>

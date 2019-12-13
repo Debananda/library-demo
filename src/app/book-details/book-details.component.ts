@@ -9,10 +9,14 @@ import { Book } from "../book.model";
 export class BookDetailsComponent implements OnInit {
   @Input() book: Book;
   @Output() onReset = new EventEmitter<void>();
+  @Output() editBook = new EventEmitter<void>();
   constructor() {}
 
   ngOnInit() {}
   reset() {
     this.onReset.emit();
+  }
+  onBookEdit() {
+    this.editBook.emit();
   }
 }

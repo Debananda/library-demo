@@ -9,6 +9,7 @@ import { Book } from "./book.model";
 export class AppComponent {
   title = "library-demo";
   selectedBook: Book;
+  editMode: boolean = false;
   books: Book[] = [
     {
       title: "Let us C",
@@ -35,5 +36,12 @@ export class AppComponent {
   }
   resetBookSelection() {
     this.selectedBook = null;
+  }
+  onBookEdit() {
+    this.editMode = true;
+  }
+  saveBook(modifiedBook: Book) {
+    this.editMode = false;
+    this.selectedBook = modifiedBook;
   }
 }
