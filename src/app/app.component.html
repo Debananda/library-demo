@@ -1,5 +1,6 @@
 <div class="container-fluid">
   <h3 class="text-center">Library</h3>
+  <hr />
   <div class="row">
     <div class="col-4">
       <app-book-list
@@ -11,13 +12,15 @@
       <app-book-details
         [book]="selectedBook"
         (onReset)="resetBookSelection()"
-        (editBook)="onBookEdit()"
+        (onEdit)="editBook()"
+        (onDelete)="deleteBook()"
       ></app-book-details>
     </div>
     <div class="col-8" *ngIf="editMode && selectedBook">
       <app-book-form
         [book]="selectedBook"
-        (onBookSave)="saveBook($event)"
+        (onSave)="saveBook($event)"
+        (onCancel)="cancelEdit()"
       ></app-book-form>
     </div>
   </div>

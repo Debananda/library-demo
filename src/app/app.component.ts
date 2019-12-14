@@ -9,6 +9,7 @@ import { Book } from "./book.model";
 export class AppComponent {
   title = "library-demo";
   selectedBook: Book;
+  selectedBookIndex = -1;
   editMode: boolean = false;
   books: Book[] = [
     {
@@ -32,16 +33,27 @@ export class AppComponent {
   ];
 
   onBookSelected(bookIndex: number) {
+    this.selectedBookIndex = bookIndex;
     this.selectedBook = this.books[bookIndex];
   }
   resetBookSelection() {
     this.selectedBook = null;
   }
-  onBookEdit() {
+  editBook() {
     this.editMode = true;
+  }
+  deleteBook() {
+    this.books = this.books.filter(
+      (book, idx) => idx !== this.selectedBookIndex
+    );
+    this.selectedBookIndex = -1;
+    this.selectedBook = null;
   }
   saveBook(modifiedBook: Book) {
     this.editMode = false;
     this.selectedBook = modifiedBook;
+  }
+  cancelEdit() {
+    this.editMode = false;
   }
 }

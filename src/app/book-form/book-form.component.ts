@@ -8,11 +8,15 @@ import { Book } from "../book.model";
 })
 export class BookFormComponent implements OnInit {
   @Input() book: Book;
-  @Output() onBookSave = new EventEmitter<Book>();
+  @Output() onSave = new EventEmitter<Book>();
+  @Output() onCancel = new EventEmitter<void>();
   constructor() {}
 
   ngOnInit() {}
   saveBook() {
-    this.onBookSave.emit(this.book);
+    this.onSave.emit(this.book);
+  }
+  cancelBookEdit() {
+    this.onCancel.emit();
   }
 }
