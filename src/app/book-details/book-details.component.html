@@ -1,17 +1,21 @@
-<div class="row" *ngIf="book">
-  <div class="col-4">
-    <img [src]="book.coverImage" [alt]="book.title" class="img-thumbnail" />
+<div class="card">
+  <div class="card-body">
+    <div class="row" *ngIf="book">
+      <div class="col-4">
+        <img [src]="book.coverImage" [alt]="book.title" class="img-thumbnail" />
+      </div>
+      <div class="col-8">
+        <p>Title : {{ book.title }}</p>
+        <p>Description : {{ book.description }}</p>
+        <p>Price : {{ book.price }}</p>
+        <p>Page: {{ book.pages }}</p>
+        <p>Author: {{ book.author }}</p>
+      </div>
+    </div>
+    <div class="text-right" *ngIf="book">
+      <button class="btn btn-primary mr-1" (click)="edit()">Edit</button>
+      <button class="btn btn-danger mr-1" (click)="delete()">Delete</button>
+      <button class="btn btn-secondary" (click)="reset()">Reset</button>
+    </div>
   </div>
-  <div class="col-8">
-    <p>Title : {{ book.title }}</p>
-    <p>Description : {{ book.description }}</p>
-    <p>Price : {{ book.price }}</p>
-    <p>Page: {{ book.pages }}</p>
-    <p>Author: {{ book.author }}</p>
-  </div>
-</div>
-<div class="text-right" *ngIf="book">
-  <button class="btn btn-primary mr-1" (click)="edit()">Edit</button>
-  <button class="btn btn-danger mr-1" (click)="delete()">Delete</button>
-  <button class="btn btn-secondary" (click)="reset()">Reset</button>
 </div>
