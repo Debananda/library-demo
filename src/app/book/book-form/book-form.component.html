@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-body">
+    <form #bookForm="ngForm" (ngSubmit)="bookForm.valid && saveBook(bookForm)">
+      <div class="form-group">
+        <label>Title</label>
+        <input
+          type="text"
+          name="title"
+          [ngModel]="book.title"
+          #title="ngModel"
+          class="form-control"
+          required
+          minlength="5"
+        />
+        <div class="invalid-feedback" *ngIf="title.errors">
+          <span *ngIf="title.errors.required">
+            Book Name is required
+          </span>
+          <span *ngIf="title.errors.minlength">
+            Book Name shall be minimum 5 Chars
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Price</label>
+        <input
+          type="number"
+          name="price"
+          [ngModel]="book.price"
+          #price="ngModel"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback" *ngIf="price.errors">
+          <span *ngIf="price.errors.required">
+            Price is required
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Author</label>
+        <input
+          type="text"
+          name="author"
+          [ngModel]="book.author"
+          class="form-control"
+          #author="ngModel"
+          required
+          [ngClass]="{ 'is-invalid': author.invalid }"
+        />
+        <div class="invalid-feedback" *ngIf="author.errors">
+          <span *ngIf="author.errors.required">
+            Author is required
+          </span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" (click)="cancelBookEdit()">
+          Cancel
+        </button>
+        <input type="submit" class="btn btn-success" value="Save" />
+      </div>
+    </form>
+  </div>
+</div>

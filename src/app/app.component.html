@@ -1,7 +1,4 @@
-<nav
-  class="navbar navbar-expand-lg navbar-dark  mb-2"
-  style="background-color: #43031E;"
->
+<nav class="navbar navbar-expand-lg navbar-dark  mb-2" style="background-color: #43031E;">
   <a class="navbar-brand" href="#">Library</a>
   <button
     class="navbar-toggler"
@@ -29,6 +26,7 @@
       <app-book-list
         [books]="books"
         (bookSelectionChanged)="onBookSelected($event)"
+        (onNewBookAdd)="addNewBook()"
       ></app-book-list>
     </div>
     <div class="col-8" *ngIf="!editMode && selectedBook">
@@ -48,6 +46,6 @@
     </div>
   </div>
   <ng-template #loginSection>
-    <app-login></app-login>
+    <app-auth></app-auth>
   </ng-template>
 </div>
