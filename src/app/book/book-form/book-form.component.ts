@@ -11,11 +11,15 @@ export class BookFormComponent implements OnInit {
   @Input() book: Book;
   @Output() onSave = new EventEmitter<Book>();
   @Output() onCancel = new EventEmitter<void>();
+  saveClicked = false;
   constructor() {}
 
   ngOnInit() {}
   saveBook(bookForm: NgForm) {
-    console.log(bookForm.value);
+    this.saveClicked = true;
+    if (bookForm.invalid) {
+      return;
+    }
     const modifiedBook = {
       ...this.book,
       title: bookForm.value['title'],

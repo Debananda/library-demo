@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
-    <form #bookForm="ngForm" (ngSubmit)="bookForm.valid && saveBook(bookForm)">
+    <form #bookForm="ngForm" (ngSubmit)="saveBook(bookForm)">
       <div class="form-group">
         <label>Title</label>
         <input
@@ -12,7 +12,11 @@
           required
           minlength="5"
         />
-        <div class="invalid-feedback" *ngIf="title.errors">
+        <div
+          class="invalid-feedback"
+          style="display: block"
+          *ngIf="title.errors && (title.touched || title.dirty || saveClicked)"
+        >
           <span *ngIf="title.errors.required">
             Book Name is required
           </span>
@@ -24,16 +28,20 @@
       <div class="form-group">
         <label>Price</label>
         <input
-          type="number"
+          type="text"
           name="price"
           [ngModel]="book.price"
           #price="ngModel"
           class="form-control"
           required
+          pattern="[1-9][0-9]*"
         />
-        <div class="invalid-feedback" *ngIf="price.errors">
+        <div class="invalid-feedback" style="display: block" *ngIf="price.errors">
           <span *ngIf="price.errors.required">
             Price is required
+          </span>
+          <span *ngIf="price.errors.pattern">
+            Price is Invalid
           </span>
         </div>
       </div>
@@ -46,16 +54,16 @@
           class="form-control"
           #author="ngModel"
           required
-          [ngClass]="{ 'is-invalid': author.invalid }"
+          [ngClass]="{ 'is-invalid': author.invalid && saveClicked }"
         />
-        <div class="invalid-feedback" *ngIf="author.errors">
+        <div class="invalid-feedback" *ngIf="author.errors && saveClicked">
           <span *ngIf="author.errors.required">
             Author is required
           </span>
         </div>
       </div>
       <div class="d-flex justify-content-between">
-        <button class="btn btn-secondary" (click)="cancelBookEdit()">
+        <button class="btn btn-secondary" type="button" (click)="cancelBookEdit()">
           Cancel
         </button>
         <input type="submit" class="btn btn-success" value="Save" />
