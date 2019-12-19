@@ -11,7 +11,7 @@ export class AppComponent {
   selectedBook: Book;
   selectedBookIndex = -1;
   editMode: boolean = false;
-  showlogin = false;
+  showlogin = true;
   books: Book[] = [
     {
       title: 'Let us C',

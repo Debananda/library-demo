@@ -1,15 +1,77 @@
 <div class="row justify-content-center">
   <div class="col-8">
-    <form>
+    <!-- <form (ngSubmit)="login()">
       <div class="form-group">
         <label for="userName">User Name</label>
-        <input type="email" name="userName" class="form-control" />
+        <input
+          type="email"
+          name="userName"
+          class="form-control"
+          [formControl]="userName"
+          [ngClass]="{ 'is-invalid': userName.invalid }"
+        />
+        <div class="invalid-feedback" *ngIf="userName.errors">
+          <span *ngIf="userName.errors.required">Please provide userName</span>
+          <span *ngIf="userName.errors.email">Please provide valid email</span>
+        </div>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" name="password" class="form-control" />
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          [formControl]="password"
+          [ngClass]="{ 'is-invalid': password.invalid }"
+        />
+        <div class="invalid-feedback" *ngIf="password.errors">
+          <span *ngIf="password.errors.required">Please provide password</span>
+          <span *ngIf="password.errors.minlength">Please provide at least 5 chars</span>
+        </div>
       </div>
-      <input class="btn btn-primary btn-block" value="Login" />
+      <input
+        class="btn btn-primary btn-block"
+        type="submit"
+        value="Login"
+        [disabled]="userName.invalid || password.invalid"
+      />
+    </form> -->
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="userName">User Name</label>
+        <input
+          type="email"
+          name="userName"
+          class="form-control"
+          formControlName="userName"
+          [ngClass]="{ 'is-invalid': f.userName.invalid }"
+        />
+        <div class="invalid-feedback" *ngIf="f.userName.errors">
+          <span *ngIf="f.userName.errors.required">Please provide userName</span>
+          <span *ngIf="f.userName.errors.email">Please provide valid email</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          formControlName="password"
+          [ngClass]="{ 'is-invalid': f.password.invalid }"
+        />
+        <div class="invalid-feedback" *ngIf="f.password.errors">
+          <span *ngIf="f.password.errors.required">Please provide password</span>
+          <span *ngIf="f.password.errors.minlength">Please provide at least 5 chars</span>
+        </div>
+      </div>
+      <input
+        class="btn btn-primary btn-block"
+        type="submit"
+        [disabled]="loginForm.invalid"
+        value="Login"
+      />
+      <button class="btn btn-secondary" type="button" (click)="fetch()">Fetch</button>
     </form>
   </div>
 </div>
