@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { AuthModule } from './auth/auth.module';
 import { BookModule } from './book/book.module';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HeaderComponent],
   imports: [BrowserModule, CommonModule, FormsModule, AuthModule, BookModule],
   providers: [],
   bootstrap: [AppComponent]

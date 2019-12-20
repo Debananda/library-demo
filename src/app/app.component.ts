@@ -74,4 +74,8 @@ export class AppComponent {
     this.selectedBookIndex = this.books.length - 1;
     this.editMode = true;
   }
+  toggleLogin() {
+    console.log('here');
+    this.showlogin = !this.showlogin;
+  }
 }
