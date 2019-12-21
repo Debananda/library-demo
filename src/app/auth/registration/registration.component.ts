@@ -8,6 +8,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
+  saveClicked = false;
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
@@ -26,8 +27,14 @@ export class RegistrationComponent implements OnInit {
   }
 
   register() {
+    this.saveClicked = true;
+    if (this.registrationForm.invalid) {
+      return;
+    }
     const user = {
-      firstName: this.registrationForm.get('personalInfo').get('firstName').value,
+      firstName: this.personalControls.firstName.value,
+      lastName: this.personalControls.lastName.value,
+      email: this.personalControls.email.value,
       password: this.registrationForm.get('password').value
     };
     console.log(user);
@@ -42,7 +49,9 @@ export class RegistrationComponent implements OnInit {
     }
     return null;
   }
-
+  get personalControls() {
+    return (this.registrationForm.get('personalInfo') as FormGroup).controls;
+  }
   mustMatch(controlName: string, tobeValidatedWith: string) {
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];
