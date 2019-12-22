@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Book } from '../../book.model';
 import { NgForm } from '@angular/forms';
+import { BookService } from '../book.service';
 
 @Component({
   selector: 'app-book-form',
@@ -8,13 +9,17 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./book-form.component.css']
 })
 export class BookFormComponent implements OnInit {
-  @Input() book: Book;
-  @Output() onSave = new EventEmitter<Book>();
+  book: Book;
   @Output() onCancel = new EventEmitter<void>();
   saveClicked = false;
-  constructor() {}
+  constructor(private bookService: BookService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.book = this.bookService.selectedBook;
+    this.bookService.onDataStateChanged.subscribe(() => {
+      this.book = this.bookService.selectedBook;
+    });
+  }
   saveBook(bookForm: NgForm) {
     this.saveClicked = true;
     if (bookForm.invalid) {
@@ -26,7 +31,7 @@ export class BookFormComponent implements OnInit {
       price: bookForm.value['price'],
       author: bookForm.value['author']
     };
-    this.onSave.emit(modifiedBook);
+    this.bookService.saveBook(modifiedBook);
   }
   cancelBookEdit() {
     this.onCancel.emit();

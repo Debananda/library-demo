@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { AuthModule } from './auth/auth.module';
 import { BookModule } from './book/book.module';
 import { HeaderComponent } from './header/header.component';
+import { BookService } from './book/book.service';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],

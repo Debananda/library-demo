@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Book } from '../../book.model';
+import { BookService } from '../book.service';
 
 @Component({
   selector: 'app-book-details',
@@ -7,18 +8,22 @@ import { Book } from '../../book.model';
   styleUrls: ['./book-details.component.css']
 })
 export class BookDetailsComponent implements OnInit {
-  @Input() book: Book;
+  book: Book;
   @Output() onReset = new EventEmitter<void>();
-  @Output() onEdit = new EventEmitter<void>();
   @Output() onDelete = new EventEmitter<void>();
-  constructor() {}
+  constructor(private bookService: BookService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.book = this.bookService.selectedBook;
+    this.bookService.onDataStateChanged.subscribe(() => {
+      this.book = this.bookService.selectedBook;
+    });
+  }
   reset() {
     this.onReset.emit();
   }
   edit() {
-    this.onEdit.emit();
+    this.bookService.startBookEdit();
   }
   delete() {
     this.onDelete.emit();

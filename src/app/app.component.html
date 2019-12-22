@@ -2,26 +2,16 @@
 <div class="container-fluid">
   <div class="row" *ngIf="!showlogin; else loginSection">
     <div class="col-4">
-      <app-book-list
-        [books]="books"
-        (bookSelectionChanged)="onBookSelected($event)"
-        (onNewBookAdd)="addNewBook()"
-      ></app-book-list>
+      <app-book-list (onNewBookAdd)="addNewBook()"></app-book-list>
     </div>
-    <div class="col-8" *ngIf="!editMode && selectedBook">
+    <div class="col-8" *ngIf="!editMode">
       <app-book-details
-        [book]="selectedBook"
         (onReset)="resetBookSelection()"
-        (onEdit)="editBook()"
         (onDelete)="deleteBook()"
       ></app-book-details>
     </div>
-    <div class="col-8" *ngIf="editMode && selectedBook">
-      <app-book-form
-        [book]="selectedBook"
-        (onSave)="saveBook($event)"
-        (onCancel)="cancelEdit()"
-      ></app-book-form>
+    <div class="col-8" *ngIf="editMode">
+      <app-book-form (onCancel)="cancelEdit()"></app-book-form>
     </div>
   </div>
   <ng-template #loginSection>
