@@ -33,8 +33,17 @@ export class BookService {
     this.selectedBook = this.books[bookIndex];
     this.onDataStateChanged.emit();
   }
+  resetBookSelection() {
+    this.selectedBookIndex = -1;
+    this.selectedBook = null;
+    this.onDataStateChanged.emit();
+  }
   startBookEdit() {
     this.editMode = true;
+    this.onDataStateChanged.emit();
+  }
+  cancelBookEdit() {
+    this.editMode = false;
     this.onDataStateChanged.emit();
   }
   saveBook(modifiedBook: Book) {
@@ -55,5 +64,19 @@ export class BookService {
     this.onDataStateChanged.emit();
     // this.onDataStateChanged.error('Error Occured');
     // this.onDataStateChanged.complete();
+  }
+  addBook() {
+    this.selectedBook = {
+      title: '',
+      pages: 0,
+      coverImage: '',
+      price: 0,
+      author: '',
+      description: ''
+    };
+    this.books = this.books.concat(this.selectedBook);
+    this.selectedBookIndex = this.books.length - 1;
+    this.editMode = true;
+    this.onDataStateChanged.emit();
   }
 }

@@ -11,7 +11,6 @@ import { Subscription, Observer } from 'rxjs';
 export class BookDetailsComponent implements OnInit, OnDestroy {
   book: Book;
   changeSubscription: Subscription;
-  @Output() onReset = new EventEmitter<void>();
   constructor(private bookService: BookService) {}
 
   ngOnInit() {
@@ -36,7 +35,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     }
   }
   reset() {
-    this.onReset.emit();
+    this.bookService.resetBookSelection();
   }
   edit() {
     this.bookService.startBookEdit();

@@ -10,7 +10,6 @@ import { BookService } from '../book.service';
 })
 export class BookFormComponent implements OnInit {
   book: Book;
-  @Output() onCancel = new EventEmitter<void>();
   saveClicked = false;
   constructor(private bookService: BookService) {}
 
@@ -34,6 +33,6 @@ export class BookFormComponent implements OnInit {
     this.bookService.saveBook(modifiedBook);
   }
   cancelBookEdit() {
-    this.onCancel.emit();
+    this.bookService.cancelBookEdit();
   }
 }

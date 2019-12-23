@@ -24,14 +24,6 @@ export class AppComponent implements OnInit {
   resetBookSelection() {
     this.selectedBook = null;
   }
-  deleteBook() {
-    this.books = this.books.filter((book, idx) => idx !== this.selectedBookIndex);
-    this.selectedBookIndex = -1;
-    this.selectedBook = null;
-  }
-  cancelEdit() {
-    this.editMode = false;
-  }
   addNewBook() {
     this.selectedBook = {
       title: '',
@@ -46,7 +38,6 @@ export class AppComponent implements OnInit {
     this.editMode = true;
   }
   toggleLogin() {
-    console.log('here');
     this.showlogin = !this.showlogin;
   }
 }

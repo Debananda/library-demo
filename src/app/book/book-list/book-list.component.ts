@@ -9,7 +9,6 @@ import { BookService } from '../book.service';
 })
 export class BookListComponent implements OnInit {
   books: Book[];
-  @Output() onNewBookAdd = new EventEmitter<void>();
   selectedBookIndex = -1;
   constructor(private bookService: BookService) {}
 
@@ -17,16 +16,16 @@ export class BookListComponent implements OnInit {
     this.books = this.bookService.books;
     this.bookService.onDataStateChanged.subscribe(() => {
       this.books = this.bookService.books;
+      this.selectedBookIndex = this.bookService.selectedBookIndex;
     });
   }
 
   bookSelected(index: number) {
     this.bookService.selectBook(index);
-    this.selectedBookIndex = index;
     // this.bookSelectionChanged.emit(index);
   }
 
   addNew() {
-    this.onNewBookAdd.emit();
+    this.bookService.addBook();
   }
 }
