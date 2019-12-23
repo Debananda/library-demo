@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Book } from '../../book.model';
 import { NgForm } from '@angular/forms';
 import { BookService } from '../book.service';

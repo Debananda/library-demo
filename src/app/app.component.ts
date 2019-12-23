@@ -21,23 +21,4 @@ export class AppComponent implements OnInit {
       this.editMode = this.bookService.editMode;
     });
   }
-  resetBookSelection() {
-    this.selectedBook = null;
-  }
-  addNewBook() {
-    this.selectedBook = {
-      title: '',
-      pages: 0,
-      coverImage: '',
-      price: 0,
-      author: '',
-      description: ''
-    };
-    this.books = this.books.concat(this.selectedBook);
-    this.selectedBookIndex = this.books.length - 1;
-    this.editMode = true;
-  }
-  toggleLogin() {
-    this.showlogin = !this.showlogin;
-  }
 }

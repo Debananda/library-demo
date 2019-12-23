@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,11 +6,18 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  @Output() loginClicked = new EventEmitter<void>();
-  constructor() {}
+  @ViewChild('navbarContent', { static: false }) navbarContent: ElementRef;
+  isShown = false;
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {}
-  toggle() {
-    this.loginClicked.emit();
+  toggleNav() {
+    if (this.isShown) {
+      this.renderer.removeClass(this.navbarContent.nativeElement, 'd-block');
+      this.isShown = false;
+    } else {
+      this.renderer.addClass(this.navbarContent.nativeElement, 'd-block');
+      this.isShown = true;
+    }
   }
 }

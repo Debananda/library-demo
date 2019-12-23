@@ -4,11 +4,11 @@ import { BookListComponent } from './book-list/book-list.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookFormComponent } from './book-form/book-form.component';
 import { FormsModule } from '@angular/forms';
-import { BookService } from './book.service';
+import { CatalogueComponent } from './catalogue/catalogue.component';
 
 @NgModule({
-  declarations: [BookListComponent, BookDetailsComponent, BookFormComponent],
+  declarations: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent],
   imports: [CommonModule, FormsModule],
-  exports: [BookListComponent, BookDetailsComponent, BookFormComponent]
+  exports: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent]
 })
 export class BookModule {}

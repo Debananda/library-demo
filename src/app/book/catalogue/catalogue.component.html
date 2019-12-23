@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-4">
+    <app-book-list></app-book-list>
+  </div>
+  <div class="col-8" *ngIf="!editMode">
+    <app-book-details></app-book-details>
+  </div>
+  <div class="col-8" *ngIf="editMode">
+    <app-book-form></app-book-form>
+  </div>
+</div>
