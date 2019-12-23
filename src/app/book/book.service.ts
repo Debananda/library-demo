@@ -3,33 +3,31 @@ import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class BookService {
-  books: Book[];
+  books: Book[] = [
+    {
+      title: 'Let us C',
+      pages: 500,
+      coverImage:
+        'https://images-na.ssl-images-amazon.com/images/I/51Z4vZ9aqUL._SX258_BO1,204,203,200_.jpg',
+      price: 300,
+      author: 'Yashwant Kanitkar',
+      description: 'C Fundamentals'
+    },
+    {
+      title: 'Let us C++',
+      pages: 500,
+      coverImage:
+        'https://rukminim1.flixcart.com/image/416/416/jwmfcsw0/book/2/7/5/let-us-c-original-imafgpndjvdz9uvw.jpeg?q=70',
+      price: 300,
+      author: 'Yashwant Kanitkar',
+      description: 'C++ Fundamentals'
+    }
+  ];
   selectedBook: Book;
   selectedBookIndex: number = -1;
   onDataStateChanged = new EventEmitter<void>();
   editMode = false;
-  constructor() {
-    this.books = [
-      {
-        title: 'Let us C',
-        pages: 500,
-        coverImage:
-          'https://images-na.ssl-images-amazon.com/images/I/51Z4vZ9aqUL._SX258_BO1,204,203,200_.jpg',
-        price: 300,
-        author: 'Yashwant Kanitkar',
-        description: 'C Fundamentals'
-      },
-      {
-        title: 'Let us C++',
-        pages: 500,
-        coverImage:
-          'https://rukminim1.flixcart.com/image/416/416/jwmfcsw0/book/2/7/5/let-us-c-original-imafgpndjvdz9uvw.jpeg?q=70',
-        price: 300,
-        author: 'Yashwant Kanitkar',
-        description: 'C++ Fundamentals'
-      }
-    ];
-  }
+  constructor() {}
   selectBook(bookIndex: number) {
     this.selectedBookIndex = bookIndex;
     this.selectedBook = this.books[bookIndex];
@@ -49,5 +47,13 @@ export class BookService {
       return b;
     });
     this.onDataStateChanged.emit();
+  }
+  deleteBook() {
+    this.books = this.books.filter((book, idx) => idx !== this.selectedBookIndex);
+    this.selectedBookIndex = -1;
+    this.selectedBook = null;
+    this.onDataStateChanged.emit();
+    // this.onDataStateChanged.error('Error Occured');
+    // this.onDataStateChanged.complete();
   }
 }

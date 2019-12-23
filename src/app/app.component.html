@@ -5,10 +5,7 @@
       <app-book-list (onNewBookAdd)="addNewBook()"></app-book-list>
     </div>
     <div class="col-8" *ngIf="!editMode">
-      <app-book-details
-        (onReset)="resetBookSelection()"
-        (onDelete)="deleteBook()"
-      ></app-book-details>
+      <app-book-details (onReset)="resetBookSelection()"></app-book-details>
     </div>
     <div class="col-8" *ngIf="editMode">
       <app-book-form (onCancel)="cancelEdit()"></app-book-form>

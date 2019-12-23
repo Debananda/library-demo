@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -9,7 +10,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
   saveClicked = false;
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group(
@@ -31,13 +32,12 @@ export class RegistrationComponent implements OnInit {
     if (this.registrationForm.invalid) {
       return;
     }
-    const user = {
-      firstName: this.personalControls.firstName.value,
-      lastName: this.personalControls.lastName.value,
-      email: this.personalControls.email.value,
-      password: this.registrationForm.get('password').value
-    };
-    console.log(user);
+    this.authService.register(
+      this.personalControls.firstName.value,
+      this.personalControls.lastName.value,
+      this.personalControls.email.value,
+      this.registrationForm.get('password').value
+    );
   }
 
   emailValidator(emailControl: FormControl) {
