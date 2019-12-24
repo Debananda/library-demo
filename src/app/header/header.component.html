@@ -15,16 +15,16 @@
 
   <div class="collapse navbar-collapse" #navbarContent>
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link">Book</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/book">Book</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link">Cart</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/cart']">Cart</a>
       </li>
     </ul>
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link">Login</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/auth">Login</a>
       </li>
     </ul>
   </div>

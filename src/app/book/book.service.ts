@@ -28,6 +28,9 @@ export class BookService {
   onDataStateChanged = new EventEmitter<void>();
   editMode = false;
   constructor() {}
+  getBook(bookIndex) {
+    return { ...this.books[bookIndex] };
+  }
   selectBook(bookIndex: number) {
     this.selectedBookIndex = bookIndex;
     this.selectedBook = this.books[bookIndex];

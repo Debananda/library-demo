@@ -5,10 +5,21 @@ import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookFormComponent } from './book-form/book-form.component';
 import { FormsModule } from '@angular/forms';
 import { CatalogueComponent } from './catalogue/catalogue.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent],
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule.forChild([
+      {
+        path: 'book',
+        component: CatalogueComponent,
+        children: [{ path: ':id', component: BookDetailsComponent }]
+      }
+    ])
+  ],
   exports: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent]
 })
 export class BookModule {}
