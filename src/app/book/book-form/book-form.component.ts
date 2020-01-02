@@ -28,7 +28,9 @@ export class BookFormComponent implements OnInit {
       ...this.book,
       title: bookForm.value['title'],
       price: bookForm.value['price'],
-      author: bookForm.value['author']
+      author: bookForm.value['author'],
+      pages: bookForm.value['pages'],
+      description: bookForm.value['description']
     };
     this.bookService.saveBook(modifiedBook);
   }

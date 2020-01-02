@@ -26,6 +26,16 @@
         </div>
       </div>
       <div class="form-group">
+        <label>Description</label>
+        <textarea
+          name="description"
+          [ngModel]="book.description"
+          #description="ngModel"
+          class="form-control"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="form-group">
         <label>Price</label>
         <input
           type="text"
@@ -42,6 +52,26 @@
           </span>
           <span *ngIf="price.errors.pattern">
             Price is Invalid
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Pages</label>
+        <input
+          type="text"
+          name="pages"
+          [ngModel]="book.pages"
+          #pages="ngModel"
+          class="form-control"
+          required
+          pattern="[1-9][0-9]*"
+        />
+        <div class="invalid-feedback" style="display: block" *ngIf="pages.errors">
+          <span *ngIf="pages.errors.required">
+            Pages is required
+          </span>
+          <span *ngIf="pages.errors.pattern">
+            Pages is Invalid
           </span>
         </div>
       </div>
