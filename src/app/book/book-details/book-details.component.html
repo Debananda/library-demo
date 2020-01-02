@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="text-right" *ngIf="book">
-      <button class="btn btn-primary mr-1" (click)="edit()">Edit</button>
-      <button class="btn btn-danger mr-1" (click)="delete()">Delete</button>
+      <a class="btn btn-primary mr-1" [routerLink]="['edit']">Edit</a>
+      <button class="btn btn-danger mr-1" (click)="delete()" [disabled]="!editMode">Delete</button>
       <button class="btn btn-secondary" (click)="reset()">Reset</button>
     </div>
   </div>

@@ -16,7 +16,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'book',
         component: CatalogueComponent,
-        children: [{ path: ':id', component: BookDetailsComponent }]
+        children: [
+          { path: ':id', component: BookDetailsComponent },
+          { path: ':id/edit', component: BookFormComponent }
+        ]
       }
     ])
   ],

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from '../../book.model';
 import { NgForm } from '@angular/forms';
 import { BookService } from '../book.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-book-form',
@@ -11,10 +12,14 @@ import { BookService } from '../book.service';
 export class BookFormComponent implements OnInit {
   book: Book;
   saveClicked = false;
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.book = this.bookService.selectedBook;
+    this.route.params.subscribe(param => {
+      const bookId = +param['id'];
+      this.book = this.bookService.getBook(bookId);
+    });
+    // this.book = this.bookService.selectedBook;
     this.bookService.onDataStateChanged.subscribe(() => {
       this.book = this.bookService.selectedBook;
     });

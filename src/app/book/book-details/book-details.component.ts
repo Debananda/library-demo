@@ -12,13 +12,24 @@ import { Route, Router, ActivatedRoute } from '@angular/router';
 export class BookDetailsComponent implements OnInit, OnDestroy {
   book: Book;
   changeSubscription: Subscription;
-  constructor(private bookService: BookService, private route: ActivatedRoute) {}
+  editMode = false;
+  bookId = -1;
+  constructor(
+    private bookService: BookService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    this.route.queryParams.subscribe(qp => {
+      console.log(qp);
+      this.editMode = qp.editMode === 'true';
+    });
+    // this.book = this.bookService.getBook(+this.route.snapshot.params['id']);
     this.route.params.subscribe(param => {
-      const bookId = +param['id'];
+      this.bookId = +param['id'];
       // this.bookService.selectBook(bookId);
-      this.book = this.bookService.getBook(bookId);
+      this.book = this.bookService.getBook(this.bookId);
     });
     // this.book = this.bookService.selectedBook;
     this.changeSubscription = this.bookService.onDataStateChanged.subscribe(this.bookObserver);
@@ -41,10 +52,8 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     }
   }
   reset() {
+    // this.router.navigate(["edit"], {preserveQueryParams:true})
     this.bookService.resetBookSelection();
-  }
-  edit() {
-    this.bookService.startBookEdit();
   }
   delete() {
     this.bookService.deleteBook();

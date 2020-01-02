@@ -18,6 +18,10 @@ export class BookListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.route.params.subscribe(param => {
+      console.log(param);
+      this.selectedBookIndex = +param['id'];
+    });
     this.books = this.bookService.books;
     this.bookService.onDataStateChanged.subscribe(() => {
       this.books = this.bookService.books;
@@ -26,9 +30,13 @@ export class BookListComponent implements OnInit {
   }
 
   bookSelected(index: number) {
+    this.selectedBookIndex = index;
     // this.bookService.selectBook(index);
     // this.bookSelectionChanged.emit(index);
-    this.router.navigate([index], { relativeTo: this.route });
+    this.router.navigate([index], {
+      relativeTo: this.route,
+      queryParams: { editMode: true }
+    });
     // this.router.navigate([`book/${index}`]);
   }
 

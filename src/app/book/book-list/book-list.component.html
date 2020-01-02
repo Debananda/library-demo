@@ -1,9 +1,15 @@
 <ul class="list-group">
+  <!-- <li
+    class="list-group-item"
+    *ngFor="let book of books; let i = index"
+    routerLinkActive="active"
+    [routerLink]="[i]"
+  > -->
   <li
     class="list-group-item"
     *ngFor="let book of books; let i = index"
     (click)="bookSelected(i)"
-    routerLinkActive="active"
+    [ngClass]="{ active: i === selectedBookIndex }"
   >
     <div class="d-flex">
       <img [src]="book.coverImage" [alt]="book.title" class="img-thumbnail" />
