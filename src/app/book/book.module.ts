@@ -6,6 +6,7 @@ import { BookFormComponent } from './book-form/book-form.component';
 import { FormsModule } from '@angular/forms';
 import { CatalogueComponent } from './catalogue/catalogue.component';
 import { RouterModule } from '@angular/router';
+import { BookGuard } from './book.guard';
 
 @NgModule({
   declarations: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent],
@@ -16,7 +17,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'book',
         component: CatalogueComponent,
+        canActivate: [BookGuard],
+        canActivateChild: [BookGuard],
         children: [
+          { path: 'addBook', component: BookFormComponent },
           { path: ':id', component: BookDetailsComponent },
           { path: ':id/edit', component: BookFormComponent }
         ]

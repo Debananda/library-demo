@@ -41,6 +41,7 @@ export class BookListComponent implements OnInit {
   }
 
   addNew() {
-    this.bookService.addBook();
+    // this.bookService.addBook();
+    this.router.navigate(['addBook'], { relativeTo: this.route });
   }
 }

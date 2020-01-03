@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from '../../book.model';
 import { NgForm } from '@angular/forms';
 import { BookService } from '../book.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-form',
@@ -12,12 +12,17 @@ import { ActivatedRoute } from '@angular/router';
 export class BookFormComponent implements OnInit {
   book: Book;
   saveClicked = false;
-  constructor(private bookService: BookService, private route: ActivatedRoute) {}
+  bookId = -1;
+  constructor(
+    private bookService: BookService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe(param => {
-      const bookId = +param['id'];
-      this.book = this.bookService.getBook(bookId);
+      this.bookId = +param['id'];
+      this.book = this.bookService.getBook(this.bookId);
     });
     // this.book = this.bookService.selectedBook;
     this.bookService.onDataStateChanged.subscribe(() => {
@@ -32,12 +37,13 @@ export class BookFormComponent implements OnInit {
     const modifiedBook = {
       ...this.book,
       title: bookForm.value['title'],
-      price: bookForm.value['price'],
+      price: +bookForm.value['price'],
       author: bookForm.value['author'],
-      pages: bookForm.value['pages'],
+      pages: +bookForm.value['pages'],
       description: bookForm.value['description']
     };
-    this.bookService.saveBook(modifiedBook);
+    this.bookService.saveBook(this.bookId, modifiedBook);
+    this.router.navigate(['/book', this.bookId]);
   }
   cancelBookEdit() {
     this.bookService.cancelBookEdit();

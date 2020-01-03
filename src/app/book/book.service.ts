@@ -49,11 +49,11 @@ export class BookService {
     this.editMode = false;
     this.onDataStateChanged.emit();
   }
-  saveBook(modifiedBook: Book) {
+  saveBook(bookIndex: number, modifiedBook: Book) {
     this.editMode = false;
     this.selectedBook = modifiedBook;
     this.books = this.books.map((b, i) => {
-      if (i === this.selectedBookIndex) {
+      if (i === bookIndex) {
         return { ...modifiedBook };
       }
       return b;

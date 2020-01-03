@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="text-right" *ngIf="book">
-      <a class="btn btn-primary mr-1" [routerLink]="['edit']">Edit</a>
+      <a class="btn btn-primary mr-1" [routerLink]="['edit']" queryParamsHandling="merge">Edit</a>
       <button class="btn btn-danger mr-1" (click)="delete()" [disabled]="!editMode">Delete</button>
       <button class="btn btn-secondary" (click)="reset()">Reset</button>
     </div>
