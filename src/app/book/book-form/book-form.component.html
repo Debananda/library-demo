@@ -11,6 +11,7 @@
           class="form-control"
           required
           minlength="5"
+          [ngClass]="{ 'is-invalid': title.invalid && saveClicked }"
         />
         <div
           class="invalid-feedback"
@@ -45,8 +46,9 @@
           class="form-control"
           required
           pattern="[1-9][0-9]*"
+          [ngClass]="{ 'is-invalid': price.invalid && saveClicked }"
         />
-        <div class="invalid-feedback" style="display: block" *ngIf="price.errors">
+        <div class="invalid-feedback" *ngIf="price.errors">
           <span *ngIf="price.errors.required">
             Price is required
           </span>
@@ -65,8 +67,9 @@
           class="form-control"
           required
           pattern="[1-9][0-9]*"
+          [ngClass]="{ 'is-invalid': pages.invalid && saveClicked }"
         />
-        <div class="invalid-feedback" style="display: block" *ngIf="pages.errors">
+        <div class="invalid-feedback" *ngIf="pages.errors">
           <span *ngIf="pages.errors.required">
             Pages is required
           </span>
