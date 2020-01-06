@@ -3,13 +3,14 @@ import { Book } from '../../book.model';
 import { NgForm } from '@angular/forms';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CanDeactivateComponent } from '../book.guard';
 
 @Component({
   selector: 'app-book-form',
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.css']
 })
-export class BookFormComponent implements OnInit {
+export class BookFormComponent implements OnInit, CanDeactivateComponent {
   book: Book;
   saveClicked = false;
   bookId = -1;
@@ -28,6 +29,9 @@ export class BookFormComponent implements OnInit {
     this.bookService.onDataStateChanged.subscribe(() => {
       this.book = this.bookService.selectedBook;
     });
+  }
+  canDeactivate() {
+    return window.confirm('Do you want to proceed?');
   }
   saveBook(bookForm: NgForm) {
     this.saveClicked = true;

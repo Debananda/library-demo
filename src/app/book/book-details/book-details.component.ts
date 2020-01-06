@@ -56,6 +56,6 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     this.bookService.resetBookSelection();
   }
   delete() {
-    this.bookService.deleteBook();
+    this.bookService.deleteBook(this.bookId);
   }
 }

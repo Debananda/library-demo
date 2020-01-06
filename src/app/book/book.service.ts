@@ -60,8 +60,8 @@ export class BookService {
     });
     this.onDataStateChanged.emit();
   }
-  deleteBook() {
-    this.books = this.books.filter((book, idx) => idx !== this.selectedBookIndex);
+  deleteBook(bookIndex: number) {
+    this.books = this.books.filter((book, idx) => idx !== bookIndex);
     this.selectedBookIndex = -1;
     this.selectedBook = null;
     this.onDataStateChanged.emit();

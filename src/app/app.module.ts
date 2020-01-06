@@ -25,12 +25,10 @@ const routes: Routes = [
     path: 'auth',
     component: AuthComponent
   },
-  // {
-  //   path: 'book',
-  //   component: CatalogueComponent,
-
-  // },
-
+  {
+    path: 'book',
+    loadChildren: () => import('./book/book.module').then(mod => mod.BookModule)
+  },
   {
     path: 'cart',
     component: CartComponent
@@ -53,7 +51,6 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes),
     AuthModule,
-    BookModule,
     CartModule
   ],
   providers: [],

@@ -15,14 +15,14 @@ import { BookGuard } from './book.guard';
     FormsModule,
     RouterModule.forChild([
       {
-        path: 'book',
+        path: '',
         component: CatalogueComponent,
         canActivate: [BookGuard],
         canActivateChild: [BookGuard],
         children: [
           { path: 'addBook', component: BookFormComponent },
           { path: ':id', component: BookDetailsComponent },
-          { path: ':id/edit', component: BookFormComponent }
+          { path: ':id/edit', component: BookFormComponent, canDeactivate: [BookGuard] }
         ]
       }
     ])
