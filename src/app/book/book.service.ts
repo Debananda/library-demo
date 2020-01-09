@@ -68,18 +68,23 @@ export class BookService {
     // this.onDataStateChanged.error('Error Occured');
     // this.onDataStateChanged.complete();
   }
-  addBook() {
-    this.selectedBook = {
-      title: '',
-      pages: 0,
-      coverImage: '',
-      price: 0,
-      author: '',
-      description: ''
-    };
-    this.books = this.books.concat(this.selectedBook);
-    this.selectedBookIndex = this.books.length - 1;
-    this.editMode = true;
+  // addBook() {
+  //   this.selectedBook = {
+  //     title: '',
+  //     pages: 0,
+  //     coverImage: '',
+  //     price: 0,
+  //     author: '',
+  //     description: ''
+  //   };
+  //   this.books = this.books.concat(this.selectedBook);
+  //   this.editMode = true;
+  //   this.onDataStateChanged.emit();
+  // }
+  addNewBook(newBook: Book): number {
+    this.books = this.books.concat(newBook);
     this.onDataStateChanged.emit();
+    this.selectedBookIndex = this.books.length - 1;
+    return this.books.length - 1;
   }
 }

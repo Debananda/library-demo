@@ -24,6 +24,16 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
     this.route.params.subscribe(param => {
       this.bookId = +param['id'];
       this.book = this.bookService.getBook(this.bookId);
+      if (Object.keys(this.book)) {
+        this.book = {
+          title: '',
+          price: null,
+          author: '',
+          pages: null,
+          description: '',
+          coverImage: ''
+        };
+      }
     });
     // this.book = this.bookService.selectedBook;
     this.bookService.onDataStateChanged.subscribe(() => {
@@ -38,16 +48,21 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
     if (bookForm.invalid) {
       return;
     }
-    const modifiedBook = {
+    const modifiedBook: Book = {
       ...this.book,
       title: bookForm.value['title'],
       price: +bookForm.value['price'],
       author: bookForm.value['author'],
       pages: +bookForm.value['pages'],
-      description: bookForm.value['description']
+      description: bookForm.value['description'],
+      coverImage: bookForm.value['coverImage']
     };
-    this.bookService.saveBook(this.bookId, modifiedBook);
-    this.router.navigate(['/book', this.bookId]);
+    if (this.bookId) {
+      this.bookService.saveBook(this.bookId, modifiedBook);
+    } else {
+      this.bookId = this.bookService.addNewBook(modifiedBook);
+    }
+    this.router.navigate(['/book']);
   }
   cancelBookEdit() {
     this.bookService.cancelBookEdit();

@@ -7,18 +7,6 @@ import { BookService } from './book/book.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'library-demo';
-  selectedBook: Book;
-  selectedBookIndex = -1;
-  editMode: boolean = false;
-  showlogin = false;
-  books: Book[];
-
-  constructor(private bookService: BookService) {}
-  ngOnInit() {
-    this.bookService.onDataStateChanged.subscribe(() => {
-      this.editMode = this.bookService.editMode;
-    });
-  }
 }

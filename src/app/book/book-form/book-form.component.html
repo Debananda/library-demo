@@ -6,7 +6,7 @@
         <input
           type="text"
           name="title"
-          [ngModel]="book.title"
+          [(ngModel)]="book.title"
           #title="ngModel"
           class="form-control"
           required
@@ -30,7 +30,7 @@
         <label>Description</label>
         <textarea
           name="description"
-          [ngModel]="book.description"
+          [(ngModel)]="book.description"
           #description="ngModel"
           class="form-control"
           rows="3"
@@ -41,7 +41,7 @@
         <input
           type="text"
           name="price"
-          [ngModel]="book.price"
+          [(ngModel)]="book.price"
           #price="ngModel"
           class="form-control"
           required
@@ -62,7 +62,7 @@
         <input
           type="text"
           name="pages"
-          [ngModel]="book.pages"
+          [(ngModel)]="book.pages"
           #pages="ngModel"
           class="form-control"
           required
@@ -83,7 +83,7 @@
         <input
           type="text"
           name="author"
-          [ngModel]="book.author"
+          [(ngModel)]="book.author"
           class="form-control"
           #author="ngModel"
           required
@@ -94,6 +94,11 @@
             Author is required
           </span>
         </div>
+      </div>
+      <div class="form-group">
+        <label>Cover Image</label>
+        <input type="text" name="coverImage" [(ngModel)]="book.coverImage" class="form-control" />
+        <img [src]="book.coverImage" alt="Cover Image" class="img-responsive" />
       </div>
       <div class="d-flex justify-content-between">
         <button class="btn btn-secondary" type="button" (click)="cancelBookEdit()">
