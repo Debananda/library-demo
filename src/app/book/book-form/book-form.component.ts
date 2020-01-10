@@ -24,7 +24,7 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
     this.route.params.subscribe(param => {
       this.bookId = +param['id'];
       this.book = this.bookService.getBook(this.bookId);
-      if (Object.keys(this.book)) {
+      if (Object.keys(this.book).length === 0) {
         this.book = {
           title: '',
           price: null,
@@ -60,7 +60,7 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
     if (this.bookId) {
       this.bookService.saveBook(this.bookId, modifiedBook);
     } else {
-      this.bookId = this.bookService.addNewBook(modifiedBook);
+      this.bookService.addNewBook(modifiedBook);
     }
     this.router.navigate(['/book']);
   }

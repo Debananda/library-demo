@@ -7,12 +7,15 @@ import { FormsModule } from '@angular/forms';
 import { CatalogueComponent } from './catalogue/catalogue.component';
 import { RouterModule } from '@angular/router';
 import { BookGuard } from './book.guard';
+import { HttpClientModule } from '@angular/common/http';
+import { BookService } from './book.service';
 
 @NgModule({
   declarations: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent],
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forChild([
       {
         path: '',
@@ -27,6 +30,7 @@ import { BookGuard } from './book.guard';
       }
     ])
   ],
+  providers: [BookService],
   exports: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent]
 })
 export class BookModule {}

@@ -1,35 +1,34 @@
 import { Book } from '../book.model';
 import { EventEmitter, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class BookService {
-  books: Book[] = [
-    {
-      title: 'Let us C',
-      pages: 500,
-      coverImage:
-        'https://images-na.ssl-images-amazon.com/images/I/51Z4vZ9aqUL._SX258_BO1,204,203,200_.jpg',
-      price: 300,
-      author: 'Yashwant Kanitkar',
-      description: 'C Fundamentals'
-    },
-    {
-      title: 'Let us C++',
-      pages: 500,
-      coverImage:
-        'https://rukminim1.flixcart.com/image/416/416/jwmfcsw0/book/2/7/5/let-us-c-original-imafgpndjvdz9uvw.jpeg?q=70',
-      price: 300,
-      author: 'Yashwant Kanitkar',
-      description: 'C++ Fundamentals'
-    }
-  ];
+  books: Book[] = [];
   selectedBook: Book;
   selectedBookIndex: number = -1;
   onDataStateChanged = new EventEmitter<void>();
   editMode = false;
-  constructor() {}
-  getBook(bookIndex) {
-    return { ...this.books[bookIndex] };
+  constructor(private httpClient: HttpClient) {}
+  getAllBooks(): Observable<Book[]> {
+    return this.httpClient.get<Book[]>('https://library-demo-e23d6.firebaseio.com/books.json').pipe(
+      map(x => {
+        return Object.keys(x).map(key => {
+          return { ...x[key], id: key };
+        });
+      })
+    );
+  }
+  getBook(bookId: string) {
+    return this.httpClient
+      .get<Book>(`https://library-demo-e23d6.firebaseio.com/books/${bookId}.json`)
+      .pipe(
+        map(x => {
+          return { ...x, id: bookId };
+        })
+      );
   }
   selectBook(bookIndex: number) {
     this.selectedBookIndex = bookIndex;
@@ -39,10 +38,6 @@ export class BookService {
   resetBookSelection() {
     this.selectedBookIndex = -1;
     this.selectedBook = null;
-    this.onDataStateChanged.emit();
-  }
-  startBookEdit() {
-    this.editMode = true;
     this.onDataStateChanged.emit();
   }
   cancelBookEdit() {
@@ -68,23 +63,11 @@ export class BookService {
     // this.onDataStateChanged.error('Error Occured');
     // this.onDataStateChanged.complete();
   }
-  // addBook() {
-  //   this.selectedBook = {
-  //     title: '',
-  //     pages: 0,
-  //     coverImage: '',
-  //     price: 0,
-  //     author: '',
-  //     description: ''
-  //   };
-  //   this.books = this.books.concat(this.selectedBook);
-  //   this.editMode = true;
-  //   this.onDataStateChanged.emit();
-  // }
-  addNewBook(newBook: Book): number {
-    this.books = this.books.concat(newBook);
-    this.onDataStateChanged.emit();
-    this.selectedBookIndex = this.books.length - 1;
-    return this.books.length - 1;
+  addNewBook(newBook: Book) {
+    this.httpClient
+      .post('https://library-demo-e23d6.firebaseio.com/books.json', { ...newBook })
+      .subscribe(book => {
+        console.log(book);
+      });
   }
 }

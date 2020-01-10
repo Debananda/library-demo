@@ -18,14 +18,8 @@ export class BookListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(param => {
-      console.log(param);
-      this.selectedBookIndex = +param['id'];
-    });
-    this.books = this.bookService.books;
-    this.bookService.onDataStateChanged.subscribe(() => {
-      this.books = this.bookService.books;
-      this.selectedBookIndex = this.bookService.selectedBookIndex;
+    this.bookService.getAllBooks().subscribe(books => {
+      this.books = books;
     });
   }
 
