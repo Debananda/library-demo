@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CanDeactivateComponent } from '../book.guard';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-book-form',
@@ -15,6 +16,7 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
   saveClicked = false;
   bookId = '';
   loading = false;
+  editBookSubscription: Observable<any>;
   constructor(
     private bookService: BookService,
     private route: ActivatedRoute,
@@ -65,18 +67,14 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
     };
     this.loading = true;
     if (this.bookId) {
-      this.bookService.saveBook(this.bookId, modifiedBook).subscribe(book => {
-        this.loading = false;
-        this.book = { ...book, id: this.bookId };
-      });
+      this.editBookSubscription = this.bookService.saveBook(this.bookId, modifiedBook);
     } else {
-      this.bookService.addNewBook(modifiedBook).subscribe(book => {
-        this.bookId = book.name;
-        this.loading = false;
-        this.book = { ...modifiedBook, id: book.name };
-      });
+      this.editBookSubscription = this.bookService.addNewBook(modifiedBook);
     }
-    this.router.navigate(['/book', this.bookId]);
+    this.editBookSubscription.subscribe(() => {
+      this.loading = false;
+      this.router.navigate(['/book', this.bookId]);
+    });
   }
   cancelBookEdit() {
     this.bookService.cancelBookEdit();

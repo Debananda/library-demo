@@ -1,3 +1,18 @@
+.loading-container {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  position: absolute;
+  width: calc(100% - 15px);
+}
+
+.loading-container.full {
+  height: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .lds-ellipsis {
   display: inline-block;
   position: relative;
@@ -10,7 +25,7 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #3589e9;
+  background: #d5d5d5;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {

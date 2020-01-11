@@ -1,6 +1,6 @@
-<div class="text-center" *ngIf="loading">
-  <app-spinner></app-spinner>
-</div>
+<ng-container *ngIf="loading">
+  <app-spinner full="true"></app-spinner>
+</ng-container>
 <div class="card" *ngIf="book">
   <div class="card-body">
     <form #bookForm="ngForm" (ngSubmit)="saveBook(bookForm)">
