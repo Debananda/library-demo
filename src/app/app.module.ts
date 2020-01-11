@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CartModule } from './cart/cart.module';
 import { CartComponent } from './cart/cart/cart.component';
 import { FileNotFoundComponent } from './file-not-found/file-not-found.component';
+import { CoreModule } from './core/core.module';
 
 const routes: Routes = [
   {
@@ -40,7 +41,14 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, HomeComponent, FileNotFoundComponent],
-  imports: [BrowserModule, CommonModule, FormsModule, RouterModule.forRoot(routes), CartModule],
+  imports: [
+    BrowserModule,
+    CommonModule,
+    FormsModule,
+    RouterModule.forRoot(routes),
+    CartModule,
+    CoreModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

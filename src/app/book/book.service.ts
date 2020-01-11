@@ -2,7 +2,7 @@ import { Book } from '../book.model';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class BookService {
@@ -21,7 +21,7 @@ export class BookService {
       })
     );
   }
-  getBook(bookId: string) {
+  getBook(bookId: string): Observable<Book> {
     return this.httpClient
       .get<Book>(`https://library-demo-e23d6.firebaseio.com/books/${bookId}.json`)
       .pipe(
@@ -44,30 +44,36 @@ export class BookService {
     this.editMode = false;
     this.onDataStateChanged.emit();
   }
-  saveBook(bookIndex: number, modifiedBook: Book) {
+  saveBook(bookId: string, modifiedBook: Book): Observable<Book> {
     this.editMode = false;
     this.selectedBook = modifiedBook;
-    this.books = this.books.map((b, i) => {
-      if (i === bookIndex) {
-        return { ...modifiedBook };
-      }
-      return b;
-    });
-    this.onDataStateChanged.emit();
+    return this.httpClient
+      .put<Book>(`https://library-demo-e23d6.firebaseio.com/books/${bookId}.json`, {
+        ...modifiedBook
+      })
+      .pipe(
+        tap(() => {
+          this.onDataStateChanged.emit();
+        })
+      );
   }
-  deleteBook(bookIndex: number) {
-    this.books = this.books.filter((book, idx) => idx !== bookIndex);
+  deleteBook(bookId: string) {
+    this.books = this.books.filter(book => book.id !== bookId);
     this.selectedBookIndex = -1;
     this.selectedBook = null;
     this.onDataStateChanged.emit();
     // this.onDataStateChanged.error('Error Occured');
     // this.onDataStateChanged.complete();
   }
-  addNewBook(newBook: Book) {
-    this.httpClient
-      .post('https://library-demo-e23d6.firebaseio.com/books.json', { ...newBook })
-      .subscribe(book => {
-        console.log(book);
-      });
+  addNewBook(newBook: Book): Observable<{ name: string }> {
+    return this.httpClient
+      .post<{ name: string }>('https://library-demo-e23d6.firebaseio.com/books.json', {
+        ...newBook
+      })
+      .pipe(
+        tap(() => {
+          this.onDataStateChanged.emit();
+        })
+      );
   }
 }

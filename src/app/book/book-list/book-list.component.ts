@@ -21,6 +21,11 @@ export class BookListComponent implements OnInit {
     this.bookService.getAllBooks().subscribe(books => {
       this.books = books;
     });
+    this.bookService.onDataStateChanged.subscribe(() => {
+      this.bookService.getAllBooks().subscribe(books => {
+        this.books = books;
+      });
+    });
   }
 
   bookSelected(index: number) {

@@ -1,4 +1,7 @@
-<div class="card">
+<div class="text-center" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<div class="card" *ngIf="book">
   <div class="card-body">
     <form #bookForm="ngForm" (ngSubmit)="saveBook(bookForm)">
       <div class="form-group">

@@ -13,7 +13,8 @@ import { CanDeactivateComponent } from '../book.guard';
 export class BookFormComponent implements OnInit, CanDeactivateComponent {
   book: Book;
   saveClicked = false;
-  bookId = -1;
+  bookId = '';
+  loading = false;
   constructor(
     private bookService: BookService,
     private route: ActivatedRoute,
@@ -22,9 +23,13 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
 
   ngOnInit() {
     this.route.params.subscribe(param => {
-      this.bookId = +param['id'];
-      this.book = this.bookService.getBook(this.bookId);
-      if (Object.keys(this.book).length === 0) {
+      this.bookId = param['id'];
+      this.loading = true;
+      this.bookService.getBook(this.bookId).subscribe(book => {
+        this.book = book;
+        this.loading = false;
+      });
+      if (Object.keys(this.book || {}).length === 0) {
         this.book = {
           title: '',
           price: null,
@@ -41,7 +46,8 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
     });
   }
   canDeactivate() {
-    return window.confirm('Do you want to proceed?');
+    return true;
+    // return window.confirm('Do you want to proceed?');
   }
   saveBook(bookForm: NgForm) {
     this.saveClicked = true;
@@ -57,12 +63,20 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
       description: bookForm.value['description'],
       coverImage: bookForm.value['coverImage']
     };
+    this.loading = true;
     if (this.bookId) {
-      this.bookService.saveBook(this.bookId, modifiedBook);
+      this.bookService.saveBook(this.bookId, modifiedBook).subscribe(book => {
+        this.loading = false;
+        this.book = { ...book, id: this.bookId };
+      });
     } else {
-      this.bookService.addNewBook(modifiedBook);
+      this.bookService.addNewBook(modifiedBook).subscribe(book => {
+        this.bookId = book.name;
+        this.loading = false;
+        this.book = { ...modifiedBook, id: book.name };
+      });
     }
-    this.router.navigate(['/book']);
+    this.router.navigate(['/book', this.bookId]);
   }
   cancelBookEdit() {
     this.bookService.cancelBookEdit();

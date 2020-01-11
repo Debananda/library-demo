@@ -3,6 +3,7 @@ import { Book } from '../../book.model';
 import { BookService } from '../book.service';
 import { Subscription, Observer } from 'rxjs';
 import { Route, Router, ActivatedRoute } from '@angular/router';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-details',
@@ -14,6 +15,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
   changeSubscription: Subscription;
   editMode = true;
   bookId = '';
+  loading = false;
   constructor(
     private bookService: BookService,
     private route: ActivatedRoute,
@@ -26,12 +28,20 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     //   this.editMode = qp.editMode === 'true';
     // });
     // this.book = this.bookService.getBook(+this.route.snapshot.params['id']);
+    this.loading = true;
     this.route.params.subscribe(param => {
       this.bookId = param['id'];
       // this.bookService.selectBook(bookId);
-      this.bookService.getBook(this.bookId).subscribe(book => {
-        this.book = book;
-      });
+      this.bookService
+        .getBook(this.bookId)
+        .pipe(
+          tap(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(book => {
+          this.book = book;
+        });
     });
     // this.book = this.bookService.selectedBook;
     this.changeSubscription = this.bookService.onDataStateChanged.subscribe(this.bookObserver);
