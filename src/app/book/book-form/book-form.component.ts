@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CanDeactivateComponent } from '../book.guard';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-book-form',
@@ -16,7 +16,7 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
   saveClicked = false;
   bookId = '';
   loading = false;
-  editBookSubscription: Observable<any>;
+  editBookObservable: Observable<any>;
   constructor(
     private bookService: BookService,
     private route: ActivatedRoute,
@@ -24,13 +24,8 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(param => {
-      this.bookId = param['id'];
-      this.loading = true;
-      this.bookService.getBook(this.bookId).subscribe(book => {
-        this.book = book;
-        this.loading = false;
-      });
+    this.route.data.subscribe(data => {
+      this.book = data.book;
       if (Object.keys(this.book || {}).length === 0) {
         this.book = {
           title: '',
@@ -42,7 +37,25 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
         };
       }
     });
-    // this.book = this.bookService.selectedBook;
+    // this.route.params.subscribe(param => {
+    //   this.bookId = param['id'];
+    //   this.loading = true;
+    //   this.bookService.getBook(this.bookId).subscribe(book => {
+    //     this.book = book;
+    //     this.loading = false;
+    //   });
+    // if (Object.keys(this.book || {}).length === 0) {
+    //   this.book = {
+    //     title: '',
+    //     price: null,
+    //     author: '',
+    //     pages: null,
+    //     description: '',
+    //     coverImage: ''
+    //   };
+    // }
+    // });
+    // // this.book = this.bookService.selectedBook;
     this.bookService.onDataStateChanged.subscribe(() => {
       this.book = this.bookService.selectedBook;
     });
@@ -67,11 +80,11 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
     };
     this.loading = true;
     if (this.bookId) {
-      this.editBookSubscription = this.bookService.saveBook(this.bookId, modifiedBook);
+      this.editBookObservable = this.bookService.saveBook(this.bookId, modifiedBook);
     } else {
-      this.editBookSubscription = this.bookService.addNewBook(modifiedBook);
+      this.editBookObservable = this.bookService.addNewBook(modifiedBook);
     }
-    this.editBookSubscription.subscribe(() => {
+    this.editBookObservable.subscribe(() => {
       this.loading = false;
       this.router.navigate(['/book', this.bookId]);
     });

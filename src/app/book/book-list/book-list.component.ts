@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class BookListComponent implements OnInit {
   books: Book[];
   selectedBookIndex = -1;
+  errorMessage = null;
   constructor(
     private bookService: BookService,
     private router: Router,
@@ -18,9 +19,17 @@ export class BookListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.bookService.getAllBooks().subscribe(books => {
-      this.books = books;
-    });
+    this.bookService.getAllBooks().subscribe(
+      books => {
+        this.books = books;
+      },
+      respError => {
+        this.errorMessage = 'An Error Occured !!!';
+        if (respError.error && respError.error.error) {
+          this.errorMessage = respError.error.error;
+        }
+      }
+    );
     this.bookService.onDataStateChanged.subscribe(() => {
       this.bookService.getAllBooks().subscribe(books => {
         this.books = books;

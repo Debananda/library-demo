@@ -10,6 +10,7 @@ import { BookGuard } from './book.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { BookService } from './book.service';
 import { CoreModule } from '../core/core.module';
+import { BookResolver } from './book.resolver';
 
 @NgModule({
   declarations: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent],
@@ -27,12 +28,17 @@ import { CoreModule } from '../core/core.module';
         children: [
           { path: 'addBook', component: BookFormComponent },
           { path: ':id', component: BookDetailsComponent },
-          { path: ':id/edit', component: BookFormComponent, canDeactivate: [BookGuard] }
+          {
+            path: ':id/edit',
+            component: BookFormComponent,
+            canDeactivate: [BookGuard],
+            resolve: { book: BookResolver }
+          }
         ]
       }
     ])
   ],
-  providers: [BookService],
+  providers: [BookService, BookResolver],
   exports: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent]
 })
 export class BookModule {}
