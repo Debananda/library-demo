@@ -11,19 +11,13 @@ import { CartModule } from './cart/cart.module';
 import { CartComponent } from './cart/cart/cart.component';
 import { FileNotFoundComponent } from './file-not-found/file-not-found.component';
 import { CoreModule } from './core/core.module';
+import { AuthModule } from './auth/auth.module';
+import { BookModule } from './book/book.module';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent
-  },
-  {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then(mod => mod.AuthModule)
-  },
-  {
-    path: 'book',
-    loadChildren: () => import('./book/book.module').then(mod => mod.BookModule)
   },
   {
     path: 'cart',
@@ -46,7 +40,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forRoot(routes),
+    AuthModule,
     CartModule,
+    BookModule,
     CoreModule
   ],
   providers: [],

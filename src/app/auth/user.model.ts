@@ -16,25 +16,25 @@ export class User {
   }
 
   get token(): string {
-    if (this._expiresIn < new Date()) {
+    if (this._expiresIn > new Date()) {
       return this._token;
     }
     return null;
   }
   get email(): string {
-    if (this._expiresIn < new Date()) {
+    if (this._expiresIn > new Date()) {
       return this._email;
     }
     return null;
   }
   get displayName(): string {
-    if (this._expiresIn < new Date()) {
+    if (this._expiresIn > new Date()) {
       return this._displayName;
     }
     return null;
   }
   get refreshToken(): string {
-    if (this._expiresIn < new Date()) {
+    if (this._expiresIn > new Date()) {
       return this._refreshToken;
     }
     return null;

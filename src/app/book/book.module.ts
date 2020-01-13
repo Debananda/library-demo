@@ -21,7 +21,7 @@ import { BookResolver } from './book.resolver';
     CoreModule,
     RouterModule.forChild([
       {
-        path: '',
+        path: 'book',
         component: CatalogueComponent,
         canActivate: [BookGuard],
         canActivateChild: [BookGuard],
