@@ -13,11 +13,16 @@ export class LoginComponent implements OnInit {
   //   password: new FormControl('', [Validators.required, Validators.minLength(5)])
   // });
   loginForm: FormGroup;
+  saveClicked = false;
+  errorMessage = null;
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
   get f() {
     return this.loginForm.controls;
   }
   ngOnInit() {
+    this.authService.error.subscribe(errMsg => {
+      this.errorMessage = errMsg;
+    });
     this.loginForm = this.formBuilder.group({
       userName: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(5)])
@@ -29,6 +34,12 @@ export class LoginComponent implements OnInit {
   // }
 
   login() {
-    this.authService.login(this.f.userName.value, this.f.password.value);
+    this.saveClicked = true;
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.authService.login(this.f.userName.value, this.f.password.value).subscribe(() => {
+      console.log('done');
+    });
   }
 }

@@ -1,3 +1,6 @@
+<div class="alert alert-danger" *ngIf="errorMessage">
+  {{ errorMessage }}
+</div>
 <div class="card">
   <div class="card-header">
     <h5 class="text-center">Login</h5>
@@ -47,9 +50,9 @@
           name="userName"
           class="form-control"
           formControlName="userName"
-          [ngClass]="{ 'is-invalid': f.userName.invalid }"
+          [ngClass]="{ 'is-invalid': f.userName.invalid && saveClicked }"
         />
-        <div class="invalid-feedback" *ngIf="f.userName.errors">
+        <div class="invalid-feedback" *ngIf="f.userName.errors && saveClicked">
           <span *ngIf="f.userName.errors.required">Please provide userName</span>
           <span *ngIf="f.userName.errors.email">Please provide valid email</span>
         </div>
@@ -61,9 +64,9 @@
           name="password"
           class="form-control"
           formControlName="password"
-          [ngClass]="{ 'is-invalid': f.password.invalid }"
+          [ngClass]="{ 'is-invalid': f.password.invalid && saveClicked }"
         />
-        <div class="invalid-feedback" *ngIf="f.password.errors">
+        <div class="invalid-feedback" *ngIf="f.password.errors && saveClicked">
           <span *ngIf="f.password.errors.required">Please provide password</span>
           <span *ngIf="f.password.errors.minlength">Please provide at least 5 chars</span>
         </div>

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
   saveClicked = false;
+  errorMessage = null;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -18,6 +19,9 @@ export class RegistrationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.authService.error.subscribe(errMsg => {
+      this.errorMessage = errMsg;
+    });
     this.registrationForm = this.formBuilder.group(
       {
         personalInfo: new FormGroup({
