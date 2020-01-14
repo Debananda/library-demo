@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
+import { LogInterceptor } from './log.interceptor';
 
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent, AuthComponent],
@@ -34,6 +35,11 @@ import { AuthInterceptor } from './auth.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LogInterceptor,
       multi: true
     }
   ]
