@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,12 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   saveClicked = false;
   errorMessage = null;
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   get f() {
     return this.loginForm.controls;
   }
@@ -39,7 +45,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.authService.login(this.f.userName.value, this.f.password.value).subscribe(() => {
-      console.log('done');
+      this.router.navigate([this.route.snapshot.queryParams['returnUrl']]);
     });
   }
 }

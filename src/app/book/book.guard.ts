@@ -24,7 +24,6 @@ export class BookGuard
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isUserLoggedIn = true;
-    console.log(state);
     if (!isUserLoggedIn) {
       return this.router.createUrlTree(['/auth'], { queryParams: { returnUrl: state.url } });
     }

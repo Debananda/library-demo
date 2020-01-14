@@ -6,7 +6,8 @@ import { AuthComponent } from './auth/auth.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent, AuthComponent],
@@ -17,10 +18,10 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     RouterModule.forChild([
       {
-        path: '',
+        path: 'auth',
         component: AuthComponent,
         children: [
-          { path: '', redirectTo: 'login' },
+          { path: '', redirectTo: 'login', pathMatch: 'full' },
           { path: 'login', component: LoginComponent },
           { path: 'register', component: RegistrationComponent }
         ]
@@ -28,6 +29,13 @@ import { HttpClientModule } from '@angular/common/http';
     ])
   ],
   exports: [LoginComponent, RegistrationComponent, AuthComponent],
-  providers: [AuthService]
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ]
 })
 export class AuthModule {}

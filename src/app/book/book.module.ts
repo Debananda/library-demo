@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BookService } from './book.service';
 import { CoreModule } from '../core/core.module';
 import { BookResolver } from './book.resolver';
+import { AuthGuard } from '../auth/auth.guard';
 
 @NgModule({
   declarations: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent],
@@ -23,7 +24,7 @@ import { BookResolver } from './book.resolver';
       {
         path: 'book',
         component: CatalogueComponent,
-        canActivate: [BookGuard],
+        canActivate: [AuthGuard],
         canActivateChild: [BookGuard],
         children: [
           { path: 'addBook', component: BookFormComponent },
