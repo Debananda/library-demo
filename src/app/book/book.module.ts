@@ -39,7 +39,6 @@ import { AuthGuard } from '../auth/auth.guard';
       }
     ])
   ],
-  providers: [BookService, BookResolver],
-  exports: [BookListComponent, BookDetailsComponent, BookFormComponent, CatalogueComponent]
+  providers: [BookService, BookResolver]
 })
 export class BookModule {}

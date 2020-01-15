@@ -45,7 +45,8 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.authService.login(this.f.userName.value, this.f.password.value).subscribe(() => {
-      this.router.navigate([this.route.snapshot.queryParams['returnUrl']]);
+      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.router.navigate([returnUrl]);
     });
   }
 }

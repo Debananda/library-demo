@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
@@ -32,28 +32,14 @@ export class AuthService {
       .pipe(
         tap(usr => {
           const loggedInUser = new User(usr);
-          console.log(loggedInUser);
+          window.localStorage.setItem(
+            'authDetail',
+            JSON.stringify({ user: usr, expiresIn: loggedInUser.expiresIn })
+          );
+          this.autoLogout(loggedInUser);
           this.user.next(loggedInUser);
         }),
-        catchError(respError => {
-          let errorMessage = 'An Error Occured !!!';
-          if (respError.error && respError.error.error) {
-            console.log(respError.error);
-            switch (respError.error.error.message) {
-              case 'EMAIL_NOT_FOUND':
-                errorMessage = `${userName} is not a registered user`;
-                break;
-              case 'INVALID_PASSWORD':
-                errorMessage = 'User Name / Password are not matching';
-                break;
-              case 'USER_DISABLED':
-                errorMessage = 'User is disabled';
-                break;
-            }
-          }
-          this.error.next(errorMessage);
-          return throwError(errorMessage);
-        })
+        catchError(this.handleError)
       );
   }
   register(
@@ -72,19 +58,51 @@ export class AuthService {
           returnSecureToken: false
         }
       )
-      .pipe(
-        catchError(respError => {
-          let errorMessage = 'An Error Occured !!!';
-          if (respError.error && respError.error.error) {
-            console.log(respError.error);
-            switch (respError.error.error.message) {
-              case 'EMAIL_EXISTS':
-                errorMessage = 'User with same email address is already present';
-            }
-          }
-          this.error.next(errorMessage);
-          return throwError(errorMessage);
-        })
-      );
+      .pipe(catchError(this.handleError));
+  }
+
+  handleError = (respError: HttpErrorResponse) => {
+    let errorMessage = 'An Error Occured !!!';
+    if (respError.error && respError.error.error) {
+      console.log(respError.error);
+      switch (respError.error.error.message) {
+        case 'EMAIL_NOT_FOUND':
+          errorMessage = `You are not a registered user`;
+          break;
+        case 'INVALID_PASSWORD':
+          errorMessage = 'User Name / Password are not matching';
+          break;
+        case 'USER_DISABLED':
+          errorMessage = 'User is disabled';
+          break;
+        case 'EMAIL_EXISTS':
+          errorMessage = 'User with same email address is already present';
+          break;
+      }
+    }
+    this.error.next(errorMessage);
+    return throwError(errorMessage);
+  };
+
+  logout() {
+    this.user.next(null);
+    window.localStorage.removeItem('authDetail');
+  }
+
+  autoLogin() {
+    const usr = JSON.parse(window.localStorage.getItem('authDetail'));
+    if (usr) {
+      const loggedInUser = new User(usr.user, new Date(usr.expiresIn));
+      if (loggedInUser && loggedInUser.token) {
+        this.autoLogout(loggedInUser);
+        this.user.next(loggedInUser);
+      }
+    }
+  }
+
+  autoLogout(loggedInUser: User) {
+    setTimeout(() => {
+      this.logout();
+    }, loggedInUser.expiresIn.getTime() - new Date().getTime());
   }
 }

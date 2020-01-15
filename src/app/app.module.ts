@@ -13,6 +13,7 @@ import { FileNotFoundComponent } from './file-not-found/file-not-found.component
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { BookModule } from './book/book.module';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
   },
   {
     path: 'cart',
-    component: CartComponent
+    component: CartComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'not-found',

@@ -29,7 +29,6 @@ import { LogInterceptor } from './log.interceptor';
       }
     ])
   ],
-  exports: [LoginComponent, RegistrationComponent, AuthComponent],
   providers: [
     AuthService,
     {

@@ -6,13 +6,18 @@ export class User {
   private _email: string;
   private _displayName: string;
   private _expiresIn: Date;
-  constructor(user: AuthResponse) {
+
+  constructor(user: AuthResponse, expiresInDate: Date = null) {
     this._token = user.idToken;
     this._displayName = user.displayName;
     this._email = user.email;
     this._refreshToken = user.refreshToken;
-    const currDate = new Date();
-    this._expiresIn = new Date(currDate.setSeconds(user.expiresIn));
+    if (expiresInDate) {
+      this._expiresIn = expiresInDate;
+    } else {
+      const currDate = new Date();
+      this._expiresIn = new Date(currDate.setSeconds(user.expiresIn));
+    }
   }
 
   get token(): string {
@@ -36,6 +41,12 @@ export class User {
   get refreshToken(): string {
     if (this._expiresIn > new Date()) {
       return this._refreshToken;
+    }
+    return null;
+  }
+  get expiresIn() {
+    if (this._expiresIn > new Date()) {
+      return this._expiresIn;
     }
     return null;
   }
