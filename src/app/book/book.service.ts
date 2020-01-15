@@ -54,18 +54,22 @@ export class BookService {
       .pipe(
         tap(() => {
           this.onDataStateChanged.emit();
-        })
+        }),
+        map(book => ({ ...book, id: bookId }))
       );
   }
   deleteBook(bookId: string) {
-    this.books = this.books.filter(book => book.id !== bookId);
-    this.selectedBookIndex = -1;
-    this.selectedBook = null;
-    this.onDataStateChanged.emit();
+    return this.httpClient
+      .delete(`https://library-demo-e23d6.firebaseio.com/books/${bookId}.json`)
+      .pipe(
+        tap(() => {
+          this.onDataStateChanged.emit();
+        })
+      );
     // this.onDataStateChanged.error('Error Occured');
     // this.onDataStateChanged.complete();
   }
-  addNewBook(newBook: Book): Observable<{ name: string }> {
+  addNewBook(newBook: Book): Observable<Book> {
     return this.httpClient
       .post<{ name: string }>('https://library-demo-e23d6.firebaseio.com/books.json', {
         ...newBook
@@ -73,7 +77,8 @@ export class BookService {
       .pipe(
         tap(() => {
           this.onDataStateChanged.emit();
-        })
+        }),
+        map(resp => ({ ...newBook, id: resp.name }))
       );
   }
 }

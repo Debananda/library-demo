@@ -63,11 +63,13 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
       this.changeSubscription.unsubscribe();
     }
   }
-  reset() {
+  addToCart() {
     // this.router.navigate(["edit"], {preserveQueryParams:true})
     this.bookService.resetBookSelection();
   }
   delete() {
-    this.bookService.deleteBook(this.bookId);
+    this.bookService.deleteBook(this.bookId).subscribe(() => {
+      this.router.navigate(['/book']);
+    });
   }
 }

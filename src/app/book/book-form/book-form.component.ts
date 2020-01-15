@@ -79,14 +79,15 @@ export class BookFormComponent implements OnInit, CanDeactivateComponent {
       coverImage: bookForm.value['coverImage']
     };
     this.loading = true;
-    if (this.bookId) {
-      this.editBookObservable = this.bookService.saveBook(this.bookId, modifiedBook);
+    if (this.book.id) {
+      const { id, ...book } = modifiedBook;
+      this.editBookObservable = this.bookService.saveBook(id, book);
     } else {
       this.editBookObservable = this.bookService.addNewBook(modifiedBook);
     }
-    this.editBookObservable.subscribe(() => {
+    this.editBookObservable.subscribe(book => {
       this.loading = false;
-      this.router.navigate(['/book', this.bookId]);
+      this.router.navigate(['/book', book.id]);
     });
   }
   cancelBookEdit() {
