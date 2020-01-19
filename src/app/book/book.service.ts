@@ -2,7 +2,8 @@ import { Book } from '../book.model';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, take, exhaustMap } from 'rxjs/operators';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class BookService {
@@ -11,11 +12,11 @@ export class BookService {
   selectedBookIndex: number = -1;
   onDataStateChanged = new EventEmitter<void>();
   editMode = false;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private authService: AuthService) {}
   getAllBooks(): Observable<Book[]> {
     return this.httpClient.get<Book[]>('https://library-demo-e23d6.firebaseio.com/books.json').pipe(
       map(x => {
-        return Object.keys(x).map(key => {
+        return Object.keys(x || {}).map(key => {
           return { ...x[key], id: key };
         });
       })
@@ -35,10 +36,20 @@ export class BookService {
     this.selectedBook = this.books[bookIndex];
     this.onDataStateChanged.emit();
   }
-  resetBookSelection() {
-    this.selectedBookIndex = -1;
-    this.selectedBook = null;
-    this.onDataStateChanged.emit();
+  addToCart(selectedBook: Book) {
+    this.authService.user
+      .pipe(
+        take(1),
+        exhaustMap(user => {
+          return this.httpClient.post('https://library-demo-e23d6.firebaseio.com/cart.json', {
+            email: user.email,
+            book: selectedBook
+          });
+        })
+      )
+      .subscribe(() => {
+        console.log('Book added');
+      });
   }
   cancelBookEdit() {
     this.editMode = false;

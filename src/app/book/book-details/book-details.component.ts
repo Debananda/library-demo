@@ -65,7 +65,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
   }
   addToCart() {
     // this.router.navigate(["edit"], {preserveQueryParams:true})
-    this.bookService.resetBookSelection();
+    this.bookService.addToCart(this.book);
   }
   delete() {
     this.bookService.deleteBook(this.bookId).subscribe(() => {

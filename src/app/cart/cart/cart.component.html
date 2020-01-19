@@ -1,1 +1,12 @@
-<p>cart works!</p>
+<div class="card" *ngFor="let book of books">
+  <div class="card-body">
+    <div class="d-flex">
+      <img [src]="book.coverImage" [alt]="book.title" class="img-thumbnail" />
+      <div class="details">
+        <p>{{ book.title }}</p>
+        <p>{{ book.description }}</p>
+        <p>{{ book.price }}</p>
+      </div>
+    </div>
+  </div>
+</div>
