@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  @ViewChild('navbarContent', { static: false }) navbarContent: ElementRef;
+  @ViewChild('navbarContent') navbarContent: ElementRef;
   isShown = false;
   isAuthenticated = false;
   constructor(
