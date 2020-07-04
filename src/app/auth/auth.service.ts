@@ -26,11 +26,11 @@ export class AuthService {
         {
           email: userName,
           password: password,
-          returnSecureToken: true
+          returnSecureToken: true,
         }
       )
       .pipe(
-        tap(usr => {
+        tap((usr) => {
           const loggedInUser = new User(usr);
           window.localStorage.setItem(
             'authDetail',
@@ -55,14 +55,14 @@ export class AuthService {
           displayName: `${firstName} ${lastName}`,
           email: email,
           password: password,
-          returnSecureToken: false
+          returnSecureToken: false,
         }
       )
       .pipe(catchError(this.handleError));
   }
 
   handleError = (respError: HttpErrorResponse) => {
-    let errorMessage = 'An Error Occured !!!';
+    let errorMessage = 'An Error Occurred !!!';
     if (respError.error && respError.error.error) {
       console.log(respError.error);
       switch (respError.error.error.message) {

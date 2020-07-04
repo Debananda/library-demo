@@ -15,8 +15,8 @@ export class BookService {
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
   getAllBooks(): Observable<Book[]> {
     return this.httpClient.get<Book[]>('https://library-demo-e23d6.firebaseio.com/books.json').pipe(
-      map(x => {
-        return Object.keys(x || {}).map(key => {
+      map((x) => {
+        return Object.keys(x || {}).map((key) => {
           return { ...x[key], id: key };
         });
       })
@@ -26,7 +26,7 @@ export class BookService {
     return this.httpClient
       .get<Book>(`https://library-demo-e23d6.firebaseio.com/books/${bookId}.json`)
       .pipe(
-        map(x => {
+        map((x) => {
           return { ...x, id: bookId };
         })
       );
@@ -40,10 +40,10 @@ export class BookService {
     this.authService.user
       .pipe(
         take(1),
-        exhaustMap(user => {
+        exhaustMap((user) => {
           return this.httpClient.post('https://library-demo-e23d6.firebaseio.com/cart.json', {
             email: user.email,
-            book: selectedBook
+            book: selectedBook,
           });
         })
       )
@@ -60,13 +60,13 @@ export class BookService {
     this.selectedBook = modifiedBook;
     return this.httpClient
       .put<Book>(`https://library-demo-e23d6.firebaseio.com/books/${bookId}.json`, {
-        ...modifiedBook
+        ...modifiedBook,
       })
       .pipe(
         tap(() => {
           this.onDataStateChanged.emit();
         }),
-        map(book => ({ ...book, id: bookId }))
+        map((book) => ({ ...book, id: bookId }))
       );
   }
   deleteBook(bookId: string) {
@@ -77,19 +77,19 @@ export class BookService {
           this.onDataStateChanged.emit();
         })
       );
-    // this.onDataStateChanged.error('Error Occured');
+    // this.onDataStateChanged.error('Error Occurred');
     // this.onDataStateChanged.complete();
   }
   addNewBook(newBook: Book): Observable<Book> {
     return this.httpClient
       .post<{ name: string }>('https://library-demo-e23d6.firebaseio.com/books.json', {
-        ...newBook
+        ...newBook,
       })
       .pipe(
         tap(() => {
           this.onDataStateChanged.emit();
         }),
-        map(resp => ({ ...newBook, id: resp.name }))
+        map((resp) => ({ ...newBook, id: resp.name }))
       );
   }
 }
