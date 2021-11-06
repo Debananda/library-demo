@@ -41,7 +41,7 @@ const routes: Routes = [
     BrowserModule,
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     AuthModule,
     CartModule,
     BookModule,
